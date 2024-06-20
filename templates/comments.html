@@ -1,0 +1,42 @@
+{% load crispy_forms_tags %}
+
+<div class="container mt-4">
+        <div class="container-fluid mt-3">
+            <div class="form-group ">
+                <form method="post" class="comment-form" action=".">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <button class="btn btn-success btn-sm" type="submit">Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--comment ui-->
+    <h3 class="text-success">Contribution{{comments.count|pluralize}}({{comments.count}})</h3>
+
+    {% for comment in comments %}
+            <div class="text">
+                <p><small><span style="color:blue">{{comment.user.username}}</span>.<span style="color:white;background-color:grey;
+                border-radius:8px;">{{comment.timestamp|timesince}} ago</span></small> &nbsp;{{comment.chat}}</big></p>
+                <div class="container-fluid" style="border:2px solid #eee;">
+                    <span style="color:grey"><b>Replies</b></span>
+                    {% for reply in comment.replies.all %}
+                        <p><small>&nbsp;-- &nbsp;<span style="color:blue">{{reply.user.username}}</span>.<span style="color:white;background-color:grey; border-radius:8px;">{{reply.timestamp|timesince}} ago</span></small> &nbsp;{{reply.chat}}</big></p>
+                    {% endfor %}
+                    <div class="container-fluid mt-3">
+                        <div class="form-group ">
+                            <form method="post" class="reply-form" action=".">
+                                {% csrf_token %}
+                                <input type="hidden" name="comment_id" value="{{comment.id}}">
+                                {{form|crispy}}
+                                <button class="btn btn-success btn-sm" type="submit">Post</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <hr style="color:#71c55d;">
+        {% endfor %}

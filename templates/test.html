@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block scripts %}
+<script src="{% static 'js/testjs.js' %}" defer></script>
+{% endblock %}
+{% block title %}Test Your Knowledge{% endblock %}
+
+{% block content %}
+<!-- Modal -->
+<div class="modal fade" id="quizStartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b style="font-family:sans-serif">Start?</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body-confirm">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">no</button>
+        <button type="button" id="start-button" class="btn btn-success">yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="h1">
+  Test your knowledge.
+</div>
+<p style="color:grey;"></p>
+<hr>
+
+{% for obj in object_list %}
+<div class="col-lg-4">
+        {{obj.course}}
+            <button
+                class="btn btn-link modal-button"
+                data-pk="{{obj.pk}}"
+                data-quiz="{{obj.course}}"
+                data-questions="{{obj.number_of_questions}}"
+                data-difficulty="{{obj.difficulty}}"
+                data-time="{{obj.time}}"
+                data-pass="{{obj.required_score_to_pass}}"
+                data-toggle="modal"
+                data-target="#quizStartModal">
+                  Take Test
+            </button><br>
+
+</div>
+{% endfor %}
+
+
+{% endblock %}
+
+
+
+<!--
+    <button
+    class="btn btn-link modal-button"
+    data-pk="{{obj.pk}}"
+    data-quiz="{{obj.name}}"
+    data-questions="{{obj.number_of_questions}}"
+    data-difficulty="{{obj.difficulty}}"
+    data-time="{{obj.time}}"
+    data-pass="{{obj.required_score_to_pass}}"
+    data-toggle="modal"
+    data-target="#quizStartModal">
+      {{obj.name}}
+    </button>
+-->

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block scripts %}
+<script src="{% static 'js/testpage.js' %}" defer></script>
+{% endblock %}
+
+{% block title %}{{obj.course}} quiz{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col">		
+		<big><b>{{obj.course }}</b></big>
+		<p>Score to pass: {{obj.required_score_to_pass}}%</p>
+	</div>
+	<div class="col text-right" id="timer-box"></div>
+</div>
+<style>
+	.not-visible {
+		display: none;
+	}
+</style>
+<a href="{% url 'allquizes' %}" class="btn btn-danger btn-sm mt-3">go back</a>
+
+<form id="quiz-form" class="mt-3 mb-4">
+    {% csrf_token %}
+    <div id="quiz-box">
+    </div>
+    <button type="submit" class="btn btn-success btn-sm mt-3">submit</button>
+</form>
+<div class="mt-2" id="score-box"></div>
+<div class="mt-2" id="result-box"></div>
+{% endblock %}

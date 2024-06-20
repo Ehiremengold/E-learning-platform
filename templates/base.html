@@ -1,0 +1,90 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	<link href="{% static 'css/homestyle.css' %}" rel="stylesheet" type="text/css" media="all" />
+    <link href="{% static 'css/navbarstyling.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/homepage.css' %}" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+
+    <!-- Custom css & js-->
+      <link rel="stylesheet" href="{% static 'css/teststyle.css' %}">
+      {% block scripts %}
+      {% endblock scripts %}
+      <title>{% block title %}{% endblock %} | CSlearn</title>
+  </head>
+  <body>
+  <nav>
+     <div class="menu-icon">
+        <span class="fa fa-bars"></span>
+     </div>
+     <div class="logo">
+        <a href="{% url 'home' %}">CSlearn</a>
+     </div>
+     <div class="nav-items">
+        <li><a href="{% url 'home' %}">Home</a></li>
+         {% if user.is_admin %}
+         {% else %}
+         <li><a href="{% url 'allquizes' %}">Test</a></li>
+         {% endif %}
+        <li><a href="#">About</a></li>
+        <li><a href="{% url 'profile' %}"><img src="{% static 'img/user.png' %}"></a></li>
+     </div>
+     <div class="search-icon">
+        <span class="fa fa-search"></span>
+     </div>
+     <div class="cancel-icon">
+        <span class="fa fa-times"></span>
+     </div>
+     <form action="{% url 'search' %}" method="get">
+        <input type="search" class="search-data"  name="q" placeholder="What do you want to Learn?" required>
+        <button type="submit" class="fa fa-search"></button>
+     </form>
+</nav>
+<script>
+const menuBtn = document.querySelector(".menu-icon span");
+const searchBtn = document.querySelector(".search-icon");
+const cancelBtn = document.querySelector(".cancel-icon");
+const items = document.querySelector(".nav-items");
+const form = document.querySelector("form");
+menuBtn.onclick = ()=>{
+	items.classList.add("active");
+	menuBtn.classList.add("hide");
+	searchBtn.classList.add("hide");
+	cancelBtn.classList.add("show");
+}
+cancelBtn.onclick = ()=>{
+	items.classList.remove("active");
+	menuBtn.classList.remove("hide");
+	searchBtn.classList.remove("hide");
+	cancelBtn.classList.remove("show");
+	form.classList.remove("active");
+	cancelBtn.style.color = "#71c55d";
+}
+searchBtn.onclick = ()=>{
+	form.classList.add("active");
+	searchBtn.classList.add("hide");
+	cancelBtn.classList.add("show");
+}
+</script>
+
+  <div class="container mt-3">
+
+{% block content %}
+
+
+{% endblock %}
+  </div>
+
+
+  <script type="text/javascript" src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+  </body>
+</html>
